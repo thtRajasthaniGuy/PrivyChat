@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "646659050656",
+    "project_id": "privychat-c21ab",
+    "storage_bucket": "privychat-c21ab.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:646659050656:android:74ae6cee7c183356b70dc5",
+        "android_client_info": {
+          "package_name": "com.privychat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFLOB17O5MjWbQgtVRCNT8am3jEnbcGkc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

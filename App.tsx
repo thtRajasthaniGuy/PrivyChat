@@ -1,45 +1,54 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React, { useEffect, useState } from 'react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { NavigationContainer } from '@react-navigation/native';
+import { Provider, useSelector, useDispatch } from 'react-redux';
+import { store, RootState } from './src/store';
+import { getItem } from './src/utils/storage';
+import { ActivityIndicator, View } from 'react-native';
+import { setUser } from './src/store/authSlice';
+import AppStack from './src/navigation/AppStack';
+import AuthStack from './src/navigation/AuthStack';
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+function Root() {
+  const dispatch = useDispatch();
+  const { username, publicId } = useSelector((state: RootState) => state.auth);
+  const [loading, setLoading] = useState(true);
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+  useEffect(() => {
+    const init = async () => {
+      const u = getItem('username');
+      const p = getItem('publicId');
+      if (u && p) {
+        dispatch(setUser({ username: u, publicId: p }));
+      }
+      setLoading(false);
+    };
+    init();
+  }, [dispatch]);
 
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
+  if (username && publicId) {
+    return <AppStack />;
+  } else {
+    return <AuthStack />;
+  }
+}
+
+export default function App() {
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
+      <Provider store={store}>
+        <NavigationContainer>
+          <Root />
+        </NavigationContainer>
+      </Provider>
     </SafeAreaProvider>
   );
 }
-
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
-  return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
-
-export default App;
