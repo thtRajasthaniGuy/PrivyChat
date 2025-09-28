@@ -2,15 +2,15 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Home } from '../screens/Home';
-// import Profile from '../screens/Profile';
-// import Chat from '../screens/Chat';
+import { PinLock } from '../screens/PinLock';
+import { Chat } from '../screens/Chat';
 
 const Stack = createNativeStackNavigator();
 
 const appScreens = [
   { name: 'Home', component: Home },
-  //   { name: 'Profile', component: Profile },
-  //   { name: 'Chat', component: Chat },
+  { name: 'PinLock', component: PinLock },
+  { name: 'Chat', component: Chat },
 ];
 
 export default function AppStack() {

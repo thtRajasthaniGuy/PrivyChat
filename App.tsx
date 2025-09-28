@@ -8,16 +8,19 @@ import { ActivityIndicator, View } from 'react-native';
 import { setUser } from './src/store/authSlice';
 import AppStack from './src/navigation/AppStack';
 import AuthStack from './src/navigation/AuthStack';
+import { useVaultAutoLock } from './src/hooks/useVaultAutoLock';
 
 function Root() {
   const dispatch = useDispatch();
   const { username, publicId } = useSelector((state: RootState) => state.auth);
   const [loading, setLoading] = useState(true);
 
+  useVaultAutoLock();
+
   useEffect(() => {
     const init = async () => {
-      const u = getItem('username');
-      const p = getItem('publicId');
+      const u = await getItem('username');
+      const p = await getItem('publicId');
       if (u && p) {
         dispatch(setUser({ username: u, publicId: p }));
       }

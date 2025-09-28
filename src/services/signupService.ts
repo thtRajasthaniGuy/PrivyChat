@@ -1,6 +1,5 @@
 import vaultService from './vaultService';
 import { userService } from './userService';
-import { setItem } from '../utils/storage';
 
 export const signupService = {
   signup: async (
@@ -19,11 +18,9 @@ export const signupService = {
     await vaultService.generateUserKey(username);
 
     const publicId = await vaultService.getPublicId(username);
-    await setItem('username', username);
-    await setItem('publicId', publicId);
 
     await userService.createUser({
-      username,
+      username: username.toLowerCase(),
       publicId,
       deviceId: deviceInfo?.deviceId,
       deviceIpAddress: deviceInfo?.deviceIpAddress,

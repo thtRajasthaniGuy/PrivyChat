@@ -2,10 +2,14 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Signup } from '../screens/Signup';
+import { PinLock } from '../screens/PinLock';
 
 const Stack = createNativeStackNavigator();
 
-const authScreens = [{ name: 'Signup', component: Signup }];
+const authScreens = [
+  { name: 'Signup', component: Signup },
+  { name: 'PinLock', component: PinLock },
+];
 
 export default function AuthStack() {
   return (

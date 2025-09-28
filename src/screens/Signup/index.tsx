@@ -2,11 +2,16 @@ import React, { useState } from 'react';
 import { View, Button, Alert } from 'react-native';
 import { Pri_TextInput } from '../../components';
 import { signupService } from '../../services/signupService';
-import { useDispatch } from 'react-redux';
-import { setUser } from '../../store/authSlice';
+
 import { getDeviceInfo } from '../../utils/deviceInfo';
-export const Signup = () => {
-  const dispatch = useDispatch();
+import { setItem } from '../../utils/storage';
+import { NavigationProp, ParamListBase } from '@react-navigation/native';
+
+interface props {
+  navigation: NavigationProp<ParamListBase>;
+  route: Record<string, any>;
+}
+export const Signup = (props: props) => {
   const [username, setUsername] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -16,7 +21,6 @@ export const Signup = () => {
       Alert.alert('Error', 'Username cannot be empty');
       return;
     }
-
     setLoading(true);
     try {
       const deviceInfo = await getDeviceInfo();
@@ -26,9 +30,9 @@ export const Signup = () => {
       );
 
       if (success) {
-        Alert.alert('Success', `Signup complete!\nYour publicId:\n${publicId}`);
-        // TODO: Navigate to next screen
-        dispatch(setUser({ username: username, publicId: publicId }));
+        await setItem('username', username);
+        await setItem('publicId', publicId);
+        props.navigation.navigate('PinLock', { flow: 'signup' });
       } else {
         Alert.alert('Error', message);
       }
